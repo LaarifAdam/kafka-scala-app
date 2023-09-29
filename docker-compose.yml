@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - .:/workdir
+    ports:
+      - 8002:4040
+      - 8888:8888  # for notebooks
+    entrypoint: "tail -f /dev/null"
