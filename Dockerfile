@@ -1,13 +1,11 @@
-FROM python:3.8 as builder
+FROM openjdk:11
 
 WORKDIR /workdir/
 
 ENV PYTHONPATH /workdir/src/
-RUN apt-get update
 
-# RUN apt-get 'deb http://security.debian.org/debian-security stretch/updates main' then apt-get -y update && apt-get -y upgrade
-# install Spark dependencies
-RUN apt-get install -y openjdk-11-jdk scala
+RUN apt-get -y update \
+&& apt-get -y upgrade
 
 # SPARK ENVS
 ENV SPARK_VERSION=3.0.2
@@ -23,6 +21,10 @@ RUN wget --no-verbose -O apache-spark.tgz "https://archive.apache.org/dist/spark
 
 
 # install jupyter notebook / toree
+RUN apt-get -y install python3 pip
 RUN pip install jupyter
 RUN pip install --upgrade toree
 RUN jupyter toree install --spark_home=$SPARK_HOME
+
+# run jupyter automatically
+RUN python3 -m ipykernel install --user --name jupyter_dev_spark --display-name "kernel_dev_spark"
