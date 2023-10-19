@@ -22,9 +22,11 @@ RUN wget --no-verbose -O apache-spark.tgz "https://archive.apache.org/dist/spark
 
 # install jupyter notebook / toree
 RUN apt-get -y install python3 pip
-RUN pip install jupyter
+RUN pip install jupyter findspark
 RUN pip install --upgrade toree
 RUN jupyter toree install --spark_home=$SPARK_HOME
+
+ENV PYSPARK_PYTHON="/usr/bin/python3"
 
 # run jupyter automatically
 RUN python3 -m ipykernel install --user --name jupyter_dev_spark --display-name "kernel_dev_spark"

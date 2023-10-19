@@ -9,6 +9,7 @@ services:
     volumes:
       - .:/workdir
     ports:
-      - 8002:4040
+      - 8000:4040
+      - 8001:4041
       - 8888:8888  # for notebooks
     entrypoint: "tail -f /dev/null"

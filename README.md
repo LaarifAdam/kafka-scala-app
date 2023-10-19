@@ -30,11 +30,38 @@ make install_jupyter_kernel
 # to run the jupyter notebook
 make run_jupyter
 ```
-If you want to work with Spark python you can add commands to the Dockerfile and build again
+
+---  
+## The Pyspark part is now available. 
+***Inconvinient*** : You will need to initiate the spark context every time.  
+you will need to always run this code first and then you can start your dev.
+
+```python
+import findspark
+findspark.init()
+
+import pyspark
+findspark.find()
+
+from pyspark import SparkContext, SparkConf
+from pyspark.sql import SparkSession
+
+conf = pyspark.SparkConf().setAppName('appName').setMaster('local')
+sc = pyspark.SparkContext(conf=conf)
+spark = SparkSession(sc)
+```
+
+If you need to install python librairies you can add in the docker file and build again
 ```Dockerfile
 # example
 RUN pip install pandas
 ```
-
----  
-The part **PySpark** will be added later 
+For testing you can run the command to enter the docker image instance
+```Dockerfile
+docker compose exec dev bash
+# now you can run your pip install example :
+pip install pandas
+```
+## PS:
+Refresh the jupyter kernel when you install using this method to be able to use the library.  
+Keep in mind that installing via this way is ephemeral.
